@@ -89,7 +89,7 @@ S3_URL_BASE="https://$S3_DOMAIN.amazonaws.com/$BINARY_BUCKET_NAME/$BINARY_BUCKET
 
 #Workaround buggy kubelet in S3 bucket https://github.com/awslabs/amazon-eks-ami/issues/3
 wget https://dl.k8s.io/v1.10.3/kubernetes-node-linux-amd64.tar.gz
-sudo tar -zxvf kubernetes-node-linux-amd64.tar.gz -C . --strip-components=3 kubernetes/node/bin/kubelet
+tar -zxvf kubernetes-node-linux-amd64.tar.gz -C . --strip-components=3 kubernetes/node/bin/kubelet
 
 wget $S3_URL_BASE/kubectl
 wget $S3_URL_BASE/heptio-authenticator-aws
