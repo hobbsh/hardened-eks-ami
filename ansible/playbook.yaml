@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: true    # gather OS info that is made available for tasks/roles
+  become: yes           # majority of CIS tasks require root
+  vars:
+    # CIS Controls whitepaper:  http://bit.ly/2mGAmUc
+    # AWS CIS Whitepaper:       http://bit.ly/2m2Ovrh
+    cis_level_1_exclusions:
+      - 1.1.11 # Only one volume
+      - 1.1.12 # Only one volume
+      - 1.1.13 # Only one volume
+      - 1.3.1 # Dont install AIDE
+      - 1.3.2 # Dont configure AIDE
+      - 1.6.1.1 # No SELinux
+      - 1.6.1.2 # No SELinux
+      - 1.6.1.3 # No SELinux
+      - 3.1.1 # Allow IP Forwarding for K8s
+    # 3.4.2, 3.4.3 and 3.6.2 effectively blocks access to all ports to the machine
+    ## This can break automation; ignoring it as there are stronger mechanisms than that
+      - 3.4.2 
+      - 3.4.3
+      - 3.6.2
+    # Cloudwatch Logs will be used instead of Rsyslog/Syslog-ng
+    ## Same would be true if any other software that doesn't support Rsyslog/Syslog-ng mechanisms
+      - 4.2.1.4
+      - 4.2.2.4
+      - 4.2.2.5
+    # Autofs is no longer installed and we need to ignore it or else will fail
+      - 1.1.19
+    # Password reuse limit task fails due to AttributionError in Ansible code; skipping
+      - 5.3.3
+  roles:
+    - common
+    - cis-amazon-linux
