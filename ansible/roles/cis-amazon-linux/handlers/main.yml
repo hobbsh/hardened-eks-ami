@@ -1,0 +1,17 @@
+# Standards: 0.11
+---
+
+- name: Restart sshd
+  service:
+    name: sshd
+    state: restarted
+
+- name: Restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted
+
+- name: Restart auditd
+  service:
+    name: auditd
+    state: restarted
