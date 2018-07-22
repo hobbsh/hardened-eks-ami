@@ -1,2 +1,0 @@
-[submodule "cis-amazon-linux"]
-  path=ansible/roles/cis-amazon-linux
