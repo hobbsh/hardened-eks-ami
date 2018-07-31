@@ -2,12 +2,17 @@ KUBERNETES_VERSION ?= 1.10.3
 DATE ?= $(shell date +%Y-%m-%d)
 # Defaults to Amazon Linux 2 LTS Candidate AMI
 #SOURCE_AMI_ID ?= ami-37efa14f
-SOURCE_AMI_ID ?= ami-8c3848f4
+AL2_AMI_ID=ami-8c3848f4
+UBUNTU_AMI_ID=ami-ba602bc2
 
-all: ami
 
-ami:
-	packer build -var source_ami_id=$(SOURCE_AMI_ID) eks-worker-al2.json
+all: ubuntu al2
+
+al2:
+	packer build -var source_ami_id=$(AL2_AMI_ID) eks-worker-al2.json
+
+ubuntu: 
+	packer build -var source_ami_id=$(UBUNTU_AMI_ID) eks-worker-ubuntu.json
 
 release:
 	aws s3 cp ./amazon-eks-nodegroup.yaml s3://amazon-eks/$(KUBERNETES_VERSION)/$(DATE)

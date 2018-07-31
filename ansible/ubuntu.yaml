@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: true    # gather OS info that is made available for tasks/roles
+  become: yes           # majority of CIS tasks require root
+  vars:
+    - iptables_rules: []
+    - ntp_servers:
+      - 0.amazon.pool.ntp.org
+      - 1.amazon.pool.ntp.org
+      - 2.amazon.pool.ntp.org
+      - 3.amazon.pool.ntp.org
+    - net_ipv4_ip_forward: 0
+    - ssh_groups: # Add groups which you want to allow SSH - you need at least ubuntu for provisioning
+        - ubuntu
+  roles:
+    - common
+    - cis-ubuntu
