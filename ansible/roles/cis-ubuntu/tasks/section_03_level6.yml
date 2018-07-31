@@ -1,0 +1,28 @@
+---
+
+- name: 3.6.1 Ensure iptables is installed (Scored)
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - iptables
+    - iptables-persistent
+  when: activate_iptables == True
+  tags:
+    - section3
+    - section3.6
+    - section3.6.1
+
+#- name: Drop in iptables rules file
+#  template:
+#    src: iptables.v4.j2
+#    dest: "/etc/iptables/rules.v4"
+#  notify:
+#    - iptables_restore
+#  tags:
+#    - section3
+#    - section3.6
+#    - section3.6.2
+#    - section3.6.3
+#    - section3.6.4
+#    - section3.6.5

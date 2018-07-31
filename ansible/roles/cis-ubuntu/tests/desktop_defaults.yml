@@ -1,0 +1,3 @@
+---
+# We focus a server installation, but we may be accept some desktops.
+remove_xserver: False

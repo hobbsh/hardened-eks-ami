@@ -1,0 +1,33 @@
+---
+
+- name: 1.4.1 Ensure permissions on bootloader config are configured (Scored)
+  file:
+    dest: /boot/grub/grub.cfg
+    owner: root
+    group: root
+    mode: 0600
+  tags:
+    - section1
+    - section1.4
+    - section1.4.1
+
+- command: grep "^root:[*\!]:" /etc/shadow
+  register: root_password_set
+  failed_when: false
+  ignore_errors: True
+  changed_when: False
+  tags:
+    - section1
+    - section1.4
+    - section1.4.3
+
+- name: 1.4.3 Ensure authentication required for single user mode (Scored)
+  user:
+    name: root
+    state: present
+    password: "{{ root_password }}"
+  when: root_password_set.rc == 0
+  tags:
+    - section1
+    - section1.4
+    - section1.4.3

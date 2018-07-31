@@ -1,0 +1,19 @@
+---
+
+# Configure xinetd
+- include: section_02_level1.yml
+  tags:
+    - section02
+    - level1
+
+# Configure NTP and disable uneeded services
+- include: section_02_level2.yml
+  tags:
+    - section02
+    - level2
+
+# Remove insecure tools
+- include: section_02_level3.yml
+  tags:
+    - section02
+    - level3

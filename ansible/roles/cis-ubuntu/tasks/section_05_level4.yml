@@ -1,0 +1,95 @@
+---
+
+- name: 5.4.1 Ensure user accounts do not expire (Scored)
+  template:
+    src: login.defs.j2
+    dest: /etc/login.defs
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - section5
+    - section5.4
+    - section5.4.1.1
+    - section5.4.1.2
+    - section5.4.1.3
+
+- name: 5.4.1.4 Ensure inactive password lock is 30 days or less (Scored)
+  replace:
+    path: /etc/default/useradd
+    regexp: "^.*INACTIVE.*"
+    replace: "INACTIVE=30"
+  tags:
+    - section5
+    - section5.4
+    - section5.4.1.4
+
+- shell: egrep -v "^\+" /etc/passwd | awk -F':' '($1!="root" && $1!="sync" && $1!="shutdown" && $1!="halt" && $3<1000 && $7!="/usr/sbin/nologin" ) {print}'
+  register: system_acounts
+  changed_when: False
+  tags:
+    - section5
+    - section5.4
+    - section5.4.2
+
+- copy:
+    src: scripts/5.4.2.sh
+    dest: /opt/5.4.2.sh
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - section5
+    - section5.4
+    - section5.4.2
+
+- name: 5.4.2 Ensure system accounts are non-login (Scored)
+  shell: /opt/5.4.2.sh
+  when: system_acounts.stdout != ""
+  tags:
+    - section5
+    - section5.4
+    - section5.4.2
+
+- name: prueba
+  file:
+    path: /opt/5.4.2.sh
+    owner: root
+    group: root
+    mode: 0700
+    state: absent
+  tags:
+    - section5
+    - section5.4
+    - section5.4.2
+
+- name: 5.4.3 Ensure default group for the root account is GID 0 (Scored)
+  command: grep "^root:" /etc/passwd | cut -f4 -d':'
+  register: root_gid
+  failed_when: False
+  tags:
+    - section5
+    - section5.4
+    - section5.4.3
+
+- name: 5.4.3 Ensure default group for the root account is GID 0 (Scored)
+  command: usermod -g 0 root
+  when: root_gid !=0
+  tags:
+    - section5
+    - section5.4
+    - section5.4.3
+
+- name: 5.4.4 Ensure default user umask is 027 or more restrictive (Scored)
+  lineinfile:
+    dest: "{{ item }}"
+    line: 'umask 027'
+    regexp: '^umask'
+    state: present
+  with_items:
+    - '/etc/bash.bashrc'
+    - '/etc/profile'
+  tags:
+    - section5
+    - section5.4
+    - section5.4.4

@@ -1,0 +1,81 @@
+#Set SSH Protocol to 2 (CIS 5.2.2)
+Protocol 2
+
+# What ports, IPs and protocols we listen for
+Port 22
+
+# HostKeys for protocol version 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+#Privilege Separation is turned on for security
+UsePrivilegeSeparation yes
+
+# Lifetime and size of ephemeral version 1 server key
+KeyRegenerationInterval 3600
+ServerKeyBits 1024
+
+# Logging (CIS 5.2.3)
+SyslogFacility AUTH
+LogLevel INFO
+
+# Authentication:
+LoginGraceTime 60 # (CIS 5.2.13)
+PermitRootLogin no # (CIS 5.2.8)
+StrictModes yes
+PermitUserEnvironment no # (CIS 5.2.10)
+
+RSAAuthentication yes
+PubkeyAuthentication yes
+
+# Don't read the user's ~/.rhosts and ~/.shosts files (CIS 5.2.6)
+IgnoreRhosts yes
+# For this to work you will also need host keys in /etc/ssh_known_hosts
+RhostsRSAAuthentication no
+# (CIS 5.2.7)
+HostbasedAuthentication no
+
+# To enable empty passwords, change to yes (NOT RECOMMENDED) (CIS 5.2.9)
+PermitEmptyPasswords no
+
+# Change to yes to enable challenge-response passwords (beware issues with
+# some PAM modules and threads)
+ChallengeResponseAuthentication no
+
+# Change to no to disable tunneled clear text passwords
+PasswordAuthentication no
+
+#Set login timeout to 60s
+LoginGraceTime 60
+
+#Set log level
+LogLevel INFO
+
+#Set max authentication attempts (CIS 5.2.5)
+MaxAuthTries 4
+
+#Set client idle timeouts (CIS 5.2.12)
+ClientAliveInterval 300
+ClientAliveCountMax 0
+
+#Restrict SSH access to certain users/groups (CIS 5.2.14)
+AllowGroups {{ sshd_allow_groups }} ssh_allow
+DenyGroups sshusersdeny
+
+StrictModes yes
+X11Forwarding no # (CIS 5.2.4)
+X11DisplayOffset 10
+
+#Set SSH Banner (CIS 5.2.15)
+Banner /etc/issue.net
+
+#Ensure only approved MAC algorithms are used # (CIS 5.2.11)
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+
+PrintMotd no
+PrintLastLog yes
+TCPKeepAlive yes
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server
+UsePAM yes

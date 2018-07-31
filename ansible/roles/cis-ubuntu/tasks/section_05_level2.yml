@@ -1,0 +1,28 @@
+---
+
+- name: 5.2.1 Ensure permissions on /etc/ssh/sshd_config are configured (Scored)
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart ssh
+  tags:
+    - section5
+    - section5.2
+    - section5.2.1
+    - section5.2.2
+    - section5.2.3
+    - section5.2.4
+    - section5.2.5
+    - section5.2.6
+    - section5.2.7
+    - section5.2.8
+    - section5.2.9
+    - section5.2.10
+    - section5.2.11
+    - section5.2.12
+    - section5.2.13
+    - section5.2.14
+    - section5.2.15

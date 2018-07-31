@@ -1,0 +1,13 @@
+---
+
+# Set permissions on /etc/{passwd,group,shadow} etc
+- include: section_06_level1.yml
+  tags:
+  - section06
+  - level1
+
+# Set more permissions
+- include: section_06_level2.yml
+  tags:
+  - section06
+  - level2

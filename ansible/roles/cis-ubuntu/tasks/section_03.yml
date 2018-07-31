@@ -1,0 +1,31 @@
+---
+
+# Disable ipforwarding and packet redirects
+- include: section_03_level1.yml
+  tags:
+    - section03
+    - level1
+
+# Set more net.ipv4.conf kernel params
+- include: section_03_level2.yml
+  tags:
+    - section03
+    - level2
+
+# Set some net.ipv6.conf kernel params
+- include: section_03_level3.yml
+  tags:
+    - section03
+    - level3
+
+# Configure hosts.allow/hosts.deny
+- include: section_03_level4.yml
+  tags:
+    - section03
+    - level4
+
+# Configure iptables
+- include: section_03_level6.yml
+  tags:
+    - section03
+    - level6

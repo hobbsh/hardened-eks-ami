@@ -1,0 +1,21 @@
+---
+
+# Configure auditd
+- include: section_04_level1.yml
+  when: 
+    - enable_auditd == True
+  tags:
+    - section04
+    - level1
+
+# Configure logging (handled in rsyslog role)
+- include: section_04_level2.yml
+  tags:
+    - section04
+    - level2
+
+# Configure logrotate (handled in logrotate role)
+- include: section_04_level3.yml
+  tags:
+    - section04
+    - level3

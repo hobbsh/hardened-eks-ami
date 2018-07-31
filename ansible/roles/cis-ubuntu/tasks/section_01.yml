@@ -1,0 +1,51 @@
+---
+
+# Disable uneeded services/filesystems
+# Set sticky bit on all world-writable dirs
+# Disable automounting
+- include: section_01_level1.yml
+  tags:
+    - section01
+    - level1
+
+# Configure package manager
+- include: section_01_level2.yml
+  tags:
+    - section01
+    - level2
+
+# Configure AIDE
+- include: section_01_level3.yml
+  tags:
+    - section01
+    - level3
+
+# Configure bootloader and auth for single-user mode (not relevant really)
+- include: section_01_level4.yml
+  tags:
+    - section01
+    - level4
+
+# Tweak kernel core dump parameters and kernal.randomize_va_space
+- include: section_01_level5.yml
+  tags:
+    - section01
+    - level5
+
+# Configure SELinux/AppArmor
+- include: section_01_level6.yml
+  tags:
+    - section01
+    - level6
+
+# Configure MOTD and login banner
+- include: section_01_level7.yml
+  tags:
+    - section01
+    - level7
+
+# Run apt-upgrade (when its enabled) - not a great idea
+- include: section_01_level8.yml
+  tags:
+    - section01
+    - level8

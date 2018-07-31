@@ -1,0 +1,46 @@
+---
+
+- name: Disable un-needed services and filesystems (Scored)
+  copy:
+    src: cis-modprobe.conf
+    dest: /etc/modprobe.d/CIS.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - section1
+    - section1.1
+    - section1.1.1.1
+    - section1.1.1.2
+    - section1.1.1.3
+    - section1.1.1.4
+    - section1.1.1.5
+    - section1.1.1.6
+    - section1.1.1.7
+    - section1.1.1.8
+    - section3
+    - section3.5
+    - section3.5.1
+    - section3.5.2
+    - section3.5.3
+    - section3.5.4
+
+- shell: dpkg -l|grep autofs
+  register: dpkg_autofs
+  failed_when: false
+  ignore_errors: True
+  changed_when: False
+  tags:
+    - section1
+    - section1.1
+    - section1.1.21Q
+
+- name: 1.1.21 Disable Automounting (Scored)
+  systemd:
+    name: autofs
+    enabled: no
+  when: dpkg_autofs.rc == 0
+  tags:
+    - section1
+    - section1.1
+    - section1.1.21
