@@ -2,6 +2,8 @@
 
 This is a tweaked fork (to work on AL2 `2017.12`) of https://github.com/awslabs/ami-builder-packer with most of https://github.com/awslabs/amazon-eks-ami pulled in.
 
+**NOTE:** Ubuntu EKS AMI does not function properly yet and I believe it comes down to a lack of support from AWS - their tooling revolves around AL2.
+
 ## To build:
 
 1. Clone this repo
