@@ -101,5 +101,4 @@ sudo systemctl daemon-reload
 sudo systemctl enable kubelet
 
 # Clean up yum caches to reduce the image size
-systemctl enable ntpd
 sudo yum clean all
