@@ -20,7 +20,7 @@ sudo yum install -y \
     socat \
     unzip \
     wget \
-    nfs-utils
+    nfs-utils 
 
 curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 sudo python get-pip.py
@@ -44,9 +44,10 @@ sudo systemctl enable iptables-restore
 ### Docker #####################################################################
 ################################################################################
 
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2 yum-versionlock
 sudo amazon-linux-extras enable docker
 sudo yum install -y docker-17.06*
+sudo yum versionlock add docker
 sudo usermod -aG docker $USER
 
 # Enable docker daemon to start on boot.
