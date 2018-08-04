@@ -4,6 +4,11 @@
   gather_facts: true    # gather OS info that is made available for tasks/roles
   become: yes           # majority of CIS tasks require root
   vars:
+    ntp_servers:
+      - 0.amazon.pool.ntp.org
+      - 1.amazon.pool.ntp.org
+      - 2.amazon.pool.ntp.org
+      - 3.amazon.pool.ntp.org
     # CIS Controls whitepaper:  http://bit.ly/2mGAmUc
     # AWS CIS Whitepaper:       http://bit.ly/2m2Ovrh
     cis_level_1_exclusions:

@@ -3,4 +3,23 @@
 
 # 2.2.1.2 Ensure ntp is configured
 
-# TODO
+- name: 2.2.1.2 - Drop in ntp.conf
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+  when: cis_enable_ntp and not cis_enable_chrony
+  notify:
+    - Restart ntpd
+
+- name: Ensure ntp is enabled/started
+  service:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    enabled: true
+  when: cis_enable_ntp and not cis_enable_chrony
+  with_items:
+    - { name: "ntpd", state: "started" }
+  tags:
+    - level-1
+    - "2.2.1.2"
+    - not-scored
