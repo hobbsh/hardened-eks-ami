@@ -13,7 +13,7 @@ DOCKER_VERSION="17.06.2"
 sudo apt-get update -y
 
 # Install necessary packages
-sudo apt-get install -y \
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq \
     conntrack \
     curl \
     socat \
@@ -25,6 +25,8 @@ sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
     software-properties-common \
+    iptables-persistent \
+    iptables \
     nfs-common
 
 sudo pip install --upgrade awscli
@@ -33,13 +35,13 @@ sudo pip install --upgrade awscli
 ### iptables ###################################################################
 ################################################################################
 
+# iptables saved rules are in cis-ubuntu
+
 # Enable forwarding via iptables
-sudo iptables -P FORWARD ACCEPT
-sudo bash -c "/sbin/iptables-save > /etc/sysconfig/iptables"
+#sudo iptables -P FORWARD ACCEPT
+#sudo bash -c "/sbin/iptables-save > /etc/iptables/rules.v4"
 
-sudo mv $TEMPLATE_DIR/iptables-restore.service /etc/systemd/system/iptables-restore.service
-
-sudo systemctl daemon-reload
+sudo mv $TEMPLATE_DIR/iptables-restore-ubuntu.service /etc/systemd/system/iptables-restore.service
 sudo systemctl enable iptables-restore
 
 ################################################################################

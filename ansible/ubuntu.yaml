@@ -5,6 +5,7 @@
   become: yes           # majority of CIS tasks require root
   vars:
     - iptables_rules: []
+    - root_password: "$6$XJFtO0o7$rU5lEimQljwHdNde9F0mqfYZlxMdLK/7QEt.AJ7e5EMquJwgjvZAruzZa9iXL394iH5qLee.BIe3RDgQdswZQ1"
     - ntp_servers:
       - 0.amazon.pool.ntp.org
       - 1.amazon.pool.ntp.org

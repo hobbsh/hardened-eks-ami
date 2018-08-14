@@ -1,28 +1,9 @@
-*nat
-:PREROUTING ACCEPT [0:0]
-:INPUT ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-:POSTROUTING ACCEPT [0:0]
-COMMIT
 *filter
-{% if 'cluster' in group_names %}
+:INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
 :DOCKER - [0:0]
 :DOCKER-ISOLATION - [0:0]
 :KUBE-FIREWALL - [0:0]
 :KUBE-SERVICES - [0:0]
-{% else %}
-{% endif %}
--A INPUT -i lo -j ACCEPT
--A INPUT -s 127.0.0.0/8 -j DROP
--A INPUT -p tcp -m state --state ESTABLISHED -j ACCEPT
--A INPUT -p udp -m state --state ESTABLISHED -j ACCEPT
--A INPUT -p icmp -m state --state ESTABLISHED -j ACCEPT
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
--A OUTPUT -o lo -j ACCEPT
--A OUTPUT -p tcp -m state --state NEW,ESTABLISHED -j ACCEPT
--A OUTPUT -p udp -m state --state NEW,ESTABLISHED -j ACCEPT
--A OUTPUT -p icmp -m state --state NEW,ESTABLISHED -j ACCEPT
-{% for rule in iptables_rules %}{{rule}}
-{% endfor %}
+:OUTPUT ACCEPT [0:0]
 COMMIT
