@@ -7,16 +7,16 @@
     state: present
     create: yes
   with_items:
-    - 'deb http://archive.ubuntu.com/ubuntu/ xenial main restricted'
-    - 'deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted'
-    - 'deb http://archive.ubuntu.com/ubuntu/ xenial universe'
-    - 'deb http://archive.ubuntu.com/ubuntu/ xenial-updates universe'
-    - 'deb http://archive.ubuntu.com/ubuntu/ xenial multiverse'
-    - 'deb http://archive.ubuntu.com/ubuntu/ xenial-updates multiverse'
-    - 'deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse'
-    - 'deb http://security.ubuntu.com/ubuntu xenial-security main restricted'
-    - 'deb http://security.ubuntu.com/ubuntu xenial-security universe'
-    - 'deb http://security.ubuntu.com/ubuntu xenial-security multiverse'
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} main restricted"
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates main restricted"
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} universe"
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates universe"
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} multiverse"
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates multiverse"
+    - "deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-backports main restricted universe multiverse"
+    - "deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security main restricted"
+    - "deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security universe"
+    - "deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security multiverse"
   tags:
     - section1
     - section1.2
