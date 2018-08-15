@@ -1,13 +1,14 @@
 ## eks-cis-ami
 
-This is a tweaked fork (to work on AL2 `2017.12`) of https://github.com/awslabs/ami-builder-packer with most of https://github.com/awslabs/amazon-eks-ami pulled in.
+This is a tweaked fork (to work on AL2 `2017.12`) of [ami-builder-packer](https://github.com/awslabs/ami-builder-packer) with most of [amazon-eks-ami](https://github.com/awslabs/amazon-eks-ami) pulled in. This repo also allows hardened Ubuntu 16.04 and Ubuntu 18.04 AMIs to be built. 
 
 ## To build:
 
 1. Clone this repo
-2. To make an Ubuntu EKS AMI: `make ubuntu`
-3. To make an AmazonLinux2 AMI: `make al2`
-4. To make both: `make`
+2. To make an Ubuntu 16.04 EKS AMI: `make ubuntu16`
+3. To make an Ubuntu 18.04 EKS AMI: `make ubuntu18`
+4. To make an AmazonLinux2 AMI: `make al2`
+5. To make all: `make`
 
 ## Modifications
 
