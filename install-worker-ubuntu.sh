@@ -11,6 +11,7 @@ DOCKER_VERSION="17.06.2"
 
 # Update the OS to begin with to catch up to the latest packages.
 sudo apt-get update -y
+sudo apt-get upgrade -y
 
 # Install necessary packages
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq \
