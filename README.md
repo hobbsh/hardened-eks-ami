@@ -6,7 +6,7 @@ This is a tweaked fork (to work on AL2 `2017.12`) of [ami-builder-packer](https:
 
 1. Clone this repo
 2. Update the root password hash in [ubuntu.yaml](ansible/ubuntu.yaml)
-  * CIS disables remote root login so it doesn't REALLY matter, but you should at least know the password.
+    * CIS disables remote root login so it doesn't REALLY matter, but you should at least know the password.
 3. To make an Ubuntu 16.04 EKS AMI: `make ubuntu16`
 4. To make an Ubuntu 18.04 EKS AMI: `make ubuntu18`
 5. To make an AmazonLinux2 AMI: `make al2`
