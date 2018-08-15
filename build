@@ -1,0 +1,47 @@
+#!/bin/bash -e
+
+# usage: ./build.sh ubuntu16
+
+function usage(){
+  echo -e "You must specify an AMI type to build and a build subnet:\n\tUbuntu 16.04: './build ubuntu16 subnet-999999'\n\tUbuntu 18.04: './build ubuntu18 subnet-999999'\n\tAmazon Linux 2: './build al2 subnet-999999'"
+}
+
+if [ $# -ne 2 ]; then
+  usage
+  exit 1
+fi
+
+AMI_TYPE="$1"
+KUBERNETES_VERSION="1.10.3"
+DATE=$(date +%Y-%m-%d)
+BUILD_SUBNET="$2"
+
+case "$AMI_TYPE" in
+  ubuntu16)
+    OS="ubuntu"
+    VERSION="16.04"
+    AMI="ami-ba602bc2"
+    SSH_USER="ubuntu"
+    ;;
+  ubuntu18)
+    OS="ubuntu"
+    VERSION="18.04"
+    AMI="ami-59694f21" # Ubuntu 18.04 Minimal 8/6/2018
+    SSH_USER="ubuntu"
+    ;;
+  al2)
+    OS="al2"
+    VERSION="2"
+    AMI="ami-8c3848f4"
+    SSH_USER="ec2-user"
+    ;;
+  *)
+    usage
+    exit 1
+esac
+
+#Replace variables in template with ones set above
+sed 's|\${OS}|'$OS'|; s|\${VERSION}|'$VERSION'|; s|\${BUILD_SUBNET}|'$BUILD_SUBNET'|; s|\${KUBERNETES_VERSION}|'$KUBERNETES_VERSION'|' eks-worker.tpl > eks-worker.json
+
+#Run packer build
+packer build -var ssh_user=$SSH_USER -var source_ami_id=$AMI eks-worker.json

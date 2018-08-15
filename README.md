@@ -2,15 +2,17 @@
 
 This is a tweaked fork (to work on AL2 `2017.12`) of [ami-builder-packer](https://github.com/awslabs/ami-builder-packer) with most of [amazon-eks-ami](https://github.com/awslabs/amazon-eks-ami) pulled in. This repo also allows hardened Ubuntu 16.04 and Ubuntu 18.04 AMIs to be built. 
 
+If you don't want to apply CIS hardening, remove the Ansible provisioner from [eks-worker.tpl](eks-worker.tpl)
+
 ## To build:
 
 1. Clone this repo
 2. Update the root password hash in [ubuntu.yaml](ansible/ubuntu.yaml)
     * CIS disables remote root login so it doesn't REALLY matter, but you should at least know the password.
-3. To make an Ubuntu 16.04 EKS AMI: `make ubuntu16`
-4. To make an Ubuntu 18.04 EKS AMI: `make ubuntu18`
-5. To make an AmazonLinux2 AMI: `make al2`
-6. To make all: `make`
+3. Run the build script for your desired AMI:
+    * `./build ubuntu16 <YOUR build subnet>`
+    * `./build ubuntu18 <YOUR build subnet>` (FYI that Ubuntu 18.04 installs docker 17.12)
+    * `./build al2 <YOUR build subnet>`
 
 ## Modifications
 

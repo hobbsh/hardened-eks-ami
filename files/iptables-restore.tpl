@@ -6,7 +6,7 @@ After=docker.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "/sbin/iptables-restore < /etc/sysconfig/iptables"
+ExecStart=/bin/bash -c "/sbin/iptables-restore -c ${IPTABLES_RULES}"
 
 [Install]
 WantedBy=multi-user.target
