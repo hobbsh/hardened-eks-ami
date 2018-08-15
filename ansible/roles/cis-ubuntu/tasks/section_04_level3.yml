@@ -1,4 +1,11 @@
 ---
+- name: Ensure logrotate is installed
+  apt:
+    name: logrotate
+    state: present
+  tags:
+    - section4
+    - section4.3
 
 - name: 4.3 Ensure logrotate is configured (Not Scored)
   file:
