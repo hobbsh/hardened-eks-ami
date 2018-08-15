@@ -24,6 +24,7 @@ if [ "$OS" == "ubuntu" ]; then
       unzip \
       wget \
       vim \
+      logrotate \
       python \
       python-pip \
       apt-transport-https \
