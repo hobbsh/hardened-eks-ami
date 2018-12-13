@@ -12,27 +12,31 @@ if [ $# -ne 2 ]; then
 fi
 
 AMI_TYPE="$1"
-KUBERNETES_VERSION="1.10.3"
+KUBERNETES_VERSION="1.10.11"
 DATE=$(date +%Y-%m-%d)
 BUILD_SUBNET="$2"
 
+#These are all us-west-2 AMIs
 case "$AMI_TYPE" in
   ubuntu16)
     OS="ubuntu"
     VERSION="16.04"
-    AMI="ami-ba602bc2"
+    AMI_OWNER=099720109477
+    AMI_NAME_MATCH='ubuntu/images/*ubuntu-xenial*'
     SSH_USER="ubuntu"
     ;;
   ubuntu18)
     OS="ubuntu"
     VERSION="18.04"
-    AMI="ami-59694f21" # Ubuntu 18.04 Minimal 8/6/2018
+    AMI_OWNER=099720109477
+    AMI_NAME_MATCH="ubuntu/images/*ubuntu-bionic*"
     SSH_USER="ubuntu"
     ;;
   al2)
     OS="al2"
     VERSION="2"
-    AMI="ami-8c3848f4"
+    AMI_OWNER=137112412989
+    AMI_NAME_MATCH='amzn2-ami-minimal-hvm-*'
     SSH_USER="ec2-user"
     ;;
   *)
@@ -40,8 +44,12 @@ case "$AMI_TYPE" in
     exit 1
 esac
 
-#Replace variables in template with ones set above
+SOURCE_AMI_ID=$(aws ec2 describe-images --filters Name=virtualization-type,Values=hvm Name=root-device-type,Values=ebs Name=name,Values=${AMI_NAME_MATCH} Name=architecture,Values=x86_64 Name=state,Values=available --query 'max_by(Images[], &CreationDate).ImageId' | tr -d '"')
+
+echo "Building with ami $SOURCE_AMI_ID"
+
+##Replace variables in template with ones set above
 sed 's|\${OS}|'$OS'|; s|\${VERSION}|'$VERSION'|; s|\${BUILD_SUBNET}|'$BUILD_SUBNET'|; s|\${KUBERNETES_VERSION}|'$KUBERNETES_VERSION'|' eks-worker.tpl > eks-worker.json
 
 #Run packer build
-packer build -var ssh_user=$SSH_USER -var source_ami_id=$AMI eks-worker.json
+packer build -var ssh_user=$SSH_USER -var source_ami_id=$SOURCE_AMI_ID eks-worker.json

@@ -4,7 +4,7 @@
     "ami_name": "eks-k8s-worker-cis-${OS}-${VERSION}-ami-{{timestamp}}",
     "binary_bucket_name": "amazon-eks",
     "binary_bucket_region": "us-west-2",
-    "binary_bucket_path": "${KUBERNETES_VERSION}/2018-07-26/bin/linux/amd64",
+    "binary_bucket_path": "${KUBERNETES_VERSION}/2018-12-06/bin/linux/amd64",
     "build_subnet": "${BUILD_SUBNET}",
     "creator": "{{env `USER`}}",
     "instance_type": "m4.large"
@@ -50,6 +50,7 @@
       "type": "shell",
       "script": "install-worker.sh",
       "environment_vars": [
+        "AMI_NAME={{user `ami_name`}}",
         "BINARY_BUCKET_NAME={{user `binary_bucket_name`}}",
         "BINARY_BUCKET_PATH={{user `binary_bucket_path`}}",
         "BINARY_BUCKET_REGION={{user `binary_bucket_region`}}",
