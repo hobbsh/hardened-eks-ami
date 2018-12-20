@@ -22,14 +22,14 @@ case "$AMI_TYPE" in
     OS="ubuntu"
     VERSION="16.04"
     AMI_OWNER=099720109477
-    AMI_NAME_MATCH='ubuntu/images/*ubuntu-xenial*'
+    AMI_NAME_MATCH='ubuntu-minimal/images/hvm-ssd/ubuntu-xenial*'
     SSH_USER="ubuntu"
     ;;
   ubuntu18)
     OS="ubuntu"
     VERSION="18.04"
     AMI_OWNER=099720109477
-    AMI_NAME_MATCH="ubuntu/images/*ubuntu-bionic*"
+    AMI_NAME_MATCH="ubuntu-minimal/images/hvm-ssd/ubuntu-bionic*"
     SSH_USER="ubuntu"
     ;;
   al2)
