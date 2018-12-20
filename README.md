@@ -4,6 +4,20 @@ This is a tweaked fork (to work on AL2 `2017.12`) of [ami-builder-packer](https:
 
 If you don't want to apply CIS hardening, remove the Ansible provisioner from [eks-worker.tpl](eks-worker.tpl)
 
+If you are using 18.04, you need to tell kubelet to point to a different resolv.conf so [DNS does not break for pods](https://github.com/coredns/coredns/issues/1986) - IMO this should be done with a kubelet arg. If you use the `terraform-aws-eks` module, you can do this by passing `kubelet_extra_args` to your worker groups:
+
+```
+locals {
+  worker_groups = [
+    {
+      ...
+      kubelet_extra_args = "--resolv-conf=/run/systemd/resolve/resolv.conf"
+      ...
+    }
+  ]
+}
+```
+
 ## To build:
 
 1. Clone this repo
