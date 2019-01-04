@@ -1,0 +1,20 @@
+# Adapted from https://github.com/zalando-incubator/kubernetes-on-aws/blob/449f8f3bf5c60e0d319be538460ff91266337abc/cluster/userdata-worker.yaml#L92
+
+[Unit]
+Description=drain this k8s node to make running pods time to gracefully shut down before stopping kubelet
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/true
+TimeoutStopSec=120s
+ExecStop=/bin/sh -c '/usr/bin/docker run -e AWS_DEFAULT_REGION=${AWS_REGION} -e CLUSTER=${CLUSTER_NAME} maddox/kubectl \ 
+  drain $(hostname).us-west-2.compute.internal
+  --ignore-daemonsets \
+  --delete-local-data \
+  --force'
+
+[Install]
+WantedBy=multi-user.target

@@ -160,10 +160,14 @@ sudo chown root:root /etc/systemd/system/kubelet.service
 sudo mv $TEMPLATE_DIR/kubelet-config.json /etc/kubernetes/kubelet/kubelet-config.json
 sudo chown root:root /etc/kubernetes/kubelet/kubelet-config.json
 
+#Copy kube-node-drainer service to drain node on shutdown
+sudo mv $TEMPLATE_DIR/kube-node-drainer.service /etc/systemd/system/kube-node-drainer.service
+sudo chown root:root /etc/systemd/system/kube-node-drainer.service
 
 sudo systemctl daemon-reload
 # Disable the kubelet until the proper dropins have been configured
 sudo systemctl disable kubelet
+sudo systemctl enable kube-node-drainer
 
 ################################################################################
 ### EKS ########################################################################
