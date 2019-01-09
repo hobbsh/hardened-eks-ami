@@ -8,7 +8,7 @@ TEMPLATE_DIR=${TEMPLATE_DIR:-/tmp/worker}
 # Update the OS and install necessary packages
 if [ "$OS" == "ubuntu" ]; then
   if [ "$VERSION" == "18.04" ]; then
-    DOCKER_PACKAGE="docker.io=17.12.1-0ubuntu1"
+    DOCKER_PACKAGE="docker.io=18.06.1-0ubuntu1~18.04.1"
   else
     DOCKER_PACKAGE="docker-ce=$(apt-cache madison docker-ce | grep '17.06.2' | head -n 1 | cut -d ' ' -f 4)"
   fi
