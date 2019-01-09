@@ -25,7 +25,7 @@ locals {
     * CIS disables remote root login so it doesn't REALLY matter, but you should at least know the password.
 3. Run the build script for your desired AMI:
     * `./build ubuntu16 <YOUR build subnet>`
-    * `./build ubuntu18 <YOUR build subnet>` (FYI that Ubuntu 18.04 installs docker 17.12)
+    * `./build ubuntu18 <YOUR build subnet>` (FYI that Ubuntu 18.04 installs docker 18.06-ce)
     * `./build al2 <YOUR build subnet>`
 
 ## Modifications
