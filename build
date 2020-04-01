@@ -6,15 +6,18 @@ function usage(){
   echo -e "You must specify an AMI type to build and a build subnet:\n\tUbuntu 16.04: './build ubuntu16 subnet-999999'\n\tUbuntu 18.04: './build ubuntu18 subnet-999999'\n\tAmazon Linux 2: './build al2 subnet-999999'"
 }
 
-if [ $# -ne 2 ]; then
+if [ $# -ne 3 ]; then
   usage
   exit 1
 fi
 
 AMI_TYPE="$1"
-KUBERNETES_VERSION="1.10.11"
-DATE=$(date +%Y-%m-%d)
-BUILD_SUBNET="$2"
+KUBERNETES_VERSION="1.15.10"
+KUBERNETES_BUILD_DATE="2020-02-22"
+SUBNET_ID="$2"
+INSTANCE_TYPE="m4.large"
+ARCH="x86_64"
+TEMPORARY_SG_SOURCE_CIDRS="$3"
 
 #These are all us-west-2 AMIs
 case "$AMI_TYPE" in
@@ -29,7 +32,8 @@ case "$AMI_TYPE" in
     OS="ubuntu"
     VERSION="18.04"
     AMI_OWNER=099720109477
-    AMI_NAME_MATCH="ubuntu-minimal/images/hvm-ssd/ubuntu-bionic*"
+    AMI_NAME_MATCH='ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-*'
+    DOCKER_VERSION="5:18.09.9~3-0~ubuntu-bionic"
     SSH_USER="ubuntu"
     ;;
   al2)
@@ -44,12 +48,13 @@ case "$AMI_TYPE" in
     exit 1
 esac
 
+
 SOURCE_AMI_ID=$(aws ec2 describe-images --filters Name=virtualization-type,Values=hvm Name=root-device-type,Values=ebs Name=name,Values=${AMI_NAME_MATCH} Name=architecture,Values=x86_64 Name=state,Values=available --query 'max_by(Images[], &CreationDate).ImageId' | tr -d '"')
 
 echo "Building with ami $SOURCE_AMI_ID"
 
 ##Replace variables in template with ones set above
-sed 's|\${OS}|'$OS'|; s|\${VERSION}|'$VERSION'|; s|\${BUILD_SUBNET}|'$BUILD_SUBNET'|; s|\${KUBERNETES_VERSION}|'$KUBERNETES_VERSION'|' eks-worker.tpl > eks-worker.json
+sed 's|\${OS}|'$OS'|; s|\${VERSION}|'$VERSION'|;' eks-worker.tpl > eks-worker.json
 
 #Run packer build
-packer build -var ssh_user=$SSH_USER -var source_ami_id=$SOURCE_AMI_ID eks-worker.json
+packer build -var docker_version=$DOCKER_VERSION -var arch=$ARCH -var kubernetes_build_date=$KUBERNETES_BUILD_DATE -var instance_type=$INSTANCE_TYPE -var kubernetes_version=$KUBERNETES_VERSION -var ssh_user=$SSH_USER -var source_ami_id=$SOURCE_AMI_ID -var subnet_id=$SUBNET_ID -var temporary_sg_source_cidrs=${TEMPORARY_SG_SOURCE_CIDRS} eks-worker.json
